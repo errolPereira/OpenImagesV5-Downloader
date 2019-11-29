@@ -9,6 +9,7 @@ import os
 from tkinter import *
 from tkinter import ttk
 import wget
+import time 
 
 
 class OpenImageGUI:
@@ -21,7 +22,7 @@ class OpenImageGUI:
     
     #frame for downloading csv files
     self.downloadPanel = Toplevel()
-    self.center(self.downloadPanel, 350, 60)
+    self.center(self.downloadPanel, 350, 63)
     self.downloadPanel.focus_force()
     self.downloadFrame = Frame(self.downloadPanel, bg='#55A3AA')
     self.downloadFrame.pack(fill=BOTH, expand=1)
@@ -29,10 +30,9 @@ class OpenImageGUI:
     
     #input form for downloadFrame
     self.message = Label(self.downloadFrame, text='Do you want to download the annotations and label information?', bg='#55A3AA')
-    self.message.grid(row=0, column=0, columnspan=2)
+    self.message.grid(row=0, columnspan=2, pady=5)
     self.yesDownload = Button(self.downloadFrame, text='Yes', command=self.download_csv, width=10, height=1, padx=2, pady=1, bg='#79fd02')
-    self.yesDownload.grid(row=1
-                          ,column=0)
+    self.yesDownload.grid(row=1,column=0)
     self.noDownload = Button(self.downloadFrame, text='No', command=self.destroyPanel, width=10, height=1, padx=2, pady=1, bg='#8602FD')
     self.noDownload.grid(row=1,column=1)
     self.downloadPanel.protocol("WM_DELETE_WINDOW", self.destroyPanel)
@@ -64,11 +64,21 @@ class OpenImageGUI:
  
     wget https://storage.googleapis.com/openimages/2018_04/test/test-annotations-bbox.csv 
     '''
-    
-    wget.download('https://storage.googleapis.com/openimages/2018_04/class-descriptions-boxable.csv', 'csv/')
+    self.message.config(text='Downloading...', anchor=CENTER)
+    self.message.grid(columnspan=3)
+    self.yesDownload.destroy()
+    self.noDownload.destroy()
     self.progress = ttk.Progressbar(self.downloadFrame, orient="horizontal",
-                                        length=200, mode="determinate")
-    self.progress.grid(row=2, column=0)
+                                        length=350, mode="determinate")
+    self.progress.grid(row=2, columnspan=3, pady=10)
+    self.progress['value'] = i
+    self.message.config(text='Download Finished', anchor=CENTER)
+
+#    wget.download('https://storage.googleapis.com/openimages/2018_04/class-descriptions-boxable.csv', 'csv/')
+#    wget.download('https://storage.googleapis.com/openimages/2018_04/train/train-annotations-bbox.csv', 'csv/')
+#    wget.download('https://storage.googleapis.com/openimages/2018_04/validation/validation-annotations-bbox.csv', 'csv/')
+#    wget.download('https://storage.googleapis.com/openimages/2018_04/test/test-annotations-bbox.csv', 'csv/')
+    
       
     
     
